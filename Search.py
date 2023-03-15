@@ -19,3 +19,17 @@ class Search:
                     return Solution(c, prb, start_time)
                 queue.append(c)
         return None
+
+    def dfs(prb: Problem) -> Solution:
+        start_time = datetime.now()
+        stack = []
+        state = prb.initState
+        stack.append(state)
+        while len(stack) > 0:
+            state = stack.pop()
+            neighbors = prb.successor(state)
+            for c in neighbors:
+                if prb.is_goal(c):
+                    return Solution(c, prb, start_time)
+                stack.append(c)
+        return None
