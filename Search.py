@@ -33,3 +33,24 @@ class Search:
                     return Solution(c, prb, start_time)
                 stack.append(c)
         return None
+        
+    def _is_unique(stack, state) -> bool:
+        for s in stack:
+            if s.__hash__() == state.__hash__():
+                return False
+        return True
+
+    def reformed_dfs(self, prb: Problem, depth: int) -> Solution:
+        start_time = datetime.now()
+        stack = []
+        state = prb.initState
+        stack.append(state)
+        while len(stack) > 0:
+            state = stack.pop()
+            neighbors = prb.successor(state)
+            for c in neighbors:
+                if prb.is_goal(c):
+                    return Solution(c, prb, start_time)
+                if self._is_unique(stack, c):    
+                    stack.append(c)
+        return None
