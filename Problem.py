@@ -20,6 +20,9 @@ class Problem:
                 return False
         return True
 
+    def _can_move(self, state, i, j) -> bool:
+        return not state.pipes[j].is_full() and not state.pipes[i].is_empty()
+    
     # this method for every state gives every possible states form this self and return it
     def successor(self, state: State) -> list:
         child = []
@@ -27,7 +30,7 @@ class Problem:
             for j in range(len(state.pipes)):
                 if i == j:
                     continue
-                if not state.pipes[j].is_full() and not state.pipes[i].is_empty():
+                if self._can_move(state, i, j):
                     s = State(copy.deepcopy(state.pipes), state, self.get_cost_from_change(state, i), (i, j))
                     s.change_between_two_pipe(i, j)
                     child.append(s)
