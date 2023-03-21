@@ -1,0 +1,1 @@
+class BreakOuterLoopException(Exception): pass
