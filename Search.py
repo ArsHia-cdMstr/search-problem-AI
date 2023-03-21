@@ -41,3 +41,25 @@ class Search:
                 if c.__hash__() not in explored:
                     stack.append(c)
         return None
+
+    @staticmethod
+    def limited_dfs(prb: Problem, limit) -> Solution:
+        start_time = datetime.now()
+        explored = {}
+        stack = []
+        state = prb.initState
+        stack.append(state)
+        while len(stack) > 0:
+            state = stack.pop(-1)
+            if state.g_n > limit:
+                limit += 1
+                continue
+            hashed_state = state.__hash__()
+            explored[hashed_state] = state
+            neighbors = prb.successor(state)
+            for c in neighbors:
+                if prb.is_goal(c):
+                    return Solution(c, prb, start_time)
+                if c.__hash__() not in explored:
+                    stack.append(c)
+        return None
