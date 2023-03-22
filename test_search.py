@@ -17,7 +17,7 @@ class TestSearch(unittest.TestCase):
             a = a.split(',')
             p.append(Pipe(a[:-1], int(a[-1])))
 
-        s = Search.bfs(Problem(State(p, None, 0, (0, 0))))
+        s = Search.bfs(Problem(State(p, None, 0, (0, 0), 0)))
         s.print_path()
         # s.execute_gui()
     
@@ -32,7 +32,7 @@ class TestSearch(unittest.TestCase):
             a = a.split(',')
             p.append(Pipe(a[:-1], int(a[-1])))
 
-        s = Search.dfs(Problem(State(p, None, 0, (0, 0))))
+        s = Search.dfs(Problem(State(p, None, 0, (0, 0), 0)))
         s.print_path()
         # s.execute_gui()
     
@@ -47,7 +47,7 @@ class TestSearch(unittest.TestCase):
             a = a.split(',')
             p.append(Pipe(a[:-1], int(a[-1])))
 
-        s = Search.ucs(Problem(State(p, None, 0, (0, 0))))
+        s = Search.ucs(Problem(State(p, None, 0, (0, 0), 0)))
         s.print_path()
         # s.execute_gui()
     
@@ -62,6 +62,37 @@ class TestSearch(unittest.TestCase):
             a = a.split(',')
             p.append(Pipe(a[:-1], int(a[-1])))
 
-        s = Search.ucs(Problem(State(p, None, 0, (0, 0))))
+        s = Search.ucs(Problem(State(p, None, 0, (0, 0), 0)))
+        s.print_path()
+        # s.execute_gui()
+    
+    def test_1_ids(self):
+        test_path = 'tests/test1.txt'
+    
+        file = open(test_path, 'r')
+        p = []
+        for i in file.readlines():
+            a = i.replace('\n', '')
+            a = a.replace(' ', '')
+            a = a.split(',')
+            p.append(Pipe(a[:-1], int(a[-1])))
+
+        s = Search.ids(Problem(State(p, None, 0, (0, 0), 0)))
+        s.print_path()
+        # s.execute_gui()
+        # s.execute_gui()
+    
+    def test_2_ids(self):
+        test_path = 'tests/test2.txt'
+    
+        file = open(test_path, 'r')
+        p = []
+        for i in file.readlines():
+            a = i.replace('\n', '')
+            a = a.replace(' ', '')
+            a = a.split(',')
+            p.append(Pipe(a[:-1], int(a[-1])))
+
+        s = Search.ids(Problem(State(p, None, 0, (0, 0), 0)))
         s.print_path()
         # s.execute_gui()
