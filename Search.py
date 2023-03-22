@@ -65,6 +65,29 @@ class Search:
         return None
 
     @staticmethod
+    def ids(prb: Problem) -> Solution:
+        start_time = datetime.now()
+        d = 0
+        while True:
+            explored = {}
+            stack = []
+            state = prb.initState
+            stack.append(state)
+            while len(stack) > 0:
+                state = stack.pop(-1)
+                state_hash = state.__hash__()
+                explored[state_hash] = state
+                neighbors = prb.successor(state)
+                for c in neighbors:
+                    if c.depth > d:
+                        break
+                    if prb.is_goal(c):
+                        return Solution(c, prb, start_time)
+                    if c.__hash__() not in explored:
+                        stack.append(c)
+            d+=1
+
+    @staticmethod
     def ucs(prb: Problem) -> Solution:
         start_time = datetime.now()
         queue = []
