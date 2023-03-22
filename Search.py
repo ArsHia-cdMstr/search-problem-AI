@@ -63,3 +63,23 @@ class Search:
                 if c.__hash__() not in explored:
                     stack.append(c)
         return None
+
+    @staticmethod
+    def ucs(prb: Problem) -> Solution:
+        start_time = datetime.now()
+        queue = []
+        explored = {}   
+        state = prb.initState
+        queue.append(state)
+        while len(queue) > 0:
+            queue.sort(key=lambda x: x.g_n)
+            state = queue.pop(0)
+            hashed_state = state.__hash__()
+            explored[hashed_state] = state
+            neighbors = prb.successor(state)
+            for c in neighbors:
+                if prb.is_goal(c):
+                    return Solution(c, prb, start_time)
+                if c.__hash__() not in explored:
+                    queue.append(c)
+        return None
