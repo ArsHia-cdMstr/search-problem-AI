@@ -31,7 +31,7 @@ class Problem:
                 if i == j:
                     continue
                 if self._can_move(state, i, j):
-                    s = State(copy.deepcopy(state.pipes), state, self.get_cost_from_change(state, i), (i, j))
+                    s = State(copy.deepcopy(state.pipes), state, self.get_cost_from_change(state, i), (i, j), state.depth+1)
                     s.change_between_two_pipe(i, j)
                     child.append(s)
         return child
