@@ -51,13 +51,12 @@ class Search:
         stack.append(state)
         while len(stack) > 0:
             state = stack.pop(-1)
-            if state.g_n > limit:
-                limit += 1
-                continue
             hashed_state = state.__hash__()
             explored[hashed_state] = state
             neighbors = prb.successor(state)
             for c in neighbors:
+                if c.depth > limit:
+                    break
                 if prb.is_goal(c):
                     return Solution(c, prb, start_time)
                 if c.__hash__() not in explored:
