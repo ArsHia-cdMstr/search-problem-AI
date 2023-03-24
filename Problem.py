@@ -31,15 +31,13 @@ class Problem:
                 if i == j:
                     continue
                 if self._can_move(state, i, j):
+                    # want's todo: get the caller_name, if ucs
                     # curframe = inspect.currentframe()
                     # calframe = inspect.getouterframes(curframe, 2)
                     # caller_name = calframe[1][3]
                     s = State(
-                        copy.deepcopy(state.pipes),
-                        state,
-                        self.get_cost_from_change(state, i, pipe_dis_ind=j), 
-                        (i, j), 
-                        state.depth+1)
+                            copy.deepcopy(state.pipes), state, 
+                            self.get_cost_from_change_ucs(state, i, j), (i, j), state.depth+1)
                     s.change_between_two_pipe(i, j)
                     child.append(s)
         return child
@@ -57,11 +55,7 @@ class Problem:
         out = out[:len(out) - 1] + '\n'
         return out
 
-    def get_cost_from_change(self, state: State, pipe_src_ind: int, **kwargs) -> int:
-        if "pipe_dis_ind" in kwargs:
-            pipe_dis_ind = kwargs['pipe_dis_ind']
-            return state.g_n + (pipe_dis_ind - pipe_src_ind)
-    
+    def get_cost_from_change(self, state: State, pipe_src_ind: int) -> int:
         if state.pipes[pipe_src_ind].stack[-1] == 'red':
             return state.g_n + self.path_cost[0]
         elif state.pipes[pipe_src_ind].stack[-1] == 'blue':
@@ -70,6 +64,9 @@ class Problem:
             return state.g_n + self.path_cost[2]
         elif state.pipes[pipe_src_ind].stack[-1] == 'yellow':
             return state.g_n + self.path_cost[3]
+    
+    def get_cost_from_change_ucs(self, state: State, pipe_src_ind: int, pipe_dis_ind: int):
+        return state.g_n + abs(pipe_dis_ind - pipe_src_ind)
 
     def set_path_cost(self, cost: list):
         self.path_cost = cost
