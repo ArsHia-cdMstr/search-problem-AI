@@ -68,7 +68,7 @@ class TestSearch(unittest.TestCase):
         # s.execute_gui()
 
         
-    def test_2_limited_bfs():
+    def test_2_limited_dfs():
         test_path = 'tests/test2.txt'
     
         file = open(test_path, 'r')
