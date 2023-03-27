@@ -19,3 +19,16 @@ class State:
         for i in hash_strings:
             hash_string += i + '###'
         return hash_string
+    
+    @property
+    def h_n_1(self):
+        max_same_pipe = 0
+        for i in self.pipes:
+            if i.max_sameColor() > max_same_pipe:
+                max_same_pipe = i.max_sameColor()
+        return max_same_pipe
+    
+    @property
+    def f_n(self):
+        return self.g_n + self.h_n_1
+

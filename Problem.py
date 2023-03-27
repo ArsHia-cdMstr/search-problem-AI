@@ -35,9 +35,11 @@ class Problem:
                     # curframe = inspect.currentframe()
                     # calframe = inspect.getouterframes(curframe, 2)
                     # caller_name = calframe[1][3]
+                    # self.get_cost_from_change_ucs(state, i, j), (i, j), state.depth+1)
                     s = State(
                             copy.deepcopy(state.pipes), state, 
-                            self.get_cost_from_change_ucs(state, i, j), (i, j), state.depth+1)
+                            self.get_cost_from_change_heuristic(state),
+                            (i, j), state.depth+1)
                     s.change_between_two_pipe(i, j)
                     child.append(s)
         return child
@@ -67,6 +69,9 @@ class Problem:
     
     def get_cost_from_change_ucs(self, state: State, pipe_src_ind: int, pipe_dis_ind: int):
         return state.g_n + abs(pipe_dis_ind - pipe_src_ind)
+
+    def get_cost_from_change_heuristic(self, state):
+        return self.path_cost[0] + state.f_n
 
     def set_path_cost(self, cost: list):
         self.path_cost = cost
