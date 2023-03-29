@@ -6,7 +6,7 @@ from datetime import datetime
 class Search:
     def __init__(self) -> None:
         self.test = "Dfsafa"
-    
+
     @staticmethod
     def bfs(prb: Problem) -> Solution:  # this method get a first state of Problem and do bfs for find solution if no
         # solution is find return None else return the solution
@@ -87,13 +87,13 @@ class Search:
                             return Solution(c, prb, start_time)
                         if c.__hash__() not in explored:
                             stack.append(c)
-            d+=1
+            d += 1
 
     @staticmethod
     def ucs(prb: Problem) -> Solution:
         start_time = datetime.now()
         queue = []
-        explored = {}   
+        explored = {}
         state = prb.initState
         queue.append(state)
         while len(queue) > 0:
@@ -104,12 +104,12 @@ class Search:
                 explored[hashed_state] = state
                 neighbors = prb.successor(state)
                 for c in neighbors:
-                    if c.__hash__() not in explored:    
+                    if c.__hash__() not in explored:
                         if prb.is_goal(c):
                             return Solution(c, prb, start_time)
                         queue.append(c)
         return None
-    
+
     @staticmethod
     def heuristic_A_star(prb: Problem) -> Solution:
         start_time = datetime.now()
@@ -125,7 +125,7 @@ class Search:
                 explored[hashed_state] = state
                 neighbors = prb.successor(state)
                 for c in neighbors:
-                    if c.__hash__() not in explored:    
+                    if c.__hash__() not in explored:
                         if prb.is_goal(c):
                             return Solution(c, prb, start_time)
                         priority_queue.append(c)
@@ -151,3 +151,37 @@ class Search:
                 if c.__hash__() not in explored:
                     priority_queue.append(c)
         return None
+
+    @staticmethod
+    def RBFS(prb: Problem) -> Solution:
+        explored = {}
+        state = prb.initState
+        explored[state.__hash__()] = state
+
+        return Search.RBFS_helper(prb, state, explored, state.h_n_1)
+
+    @staticmethod
+    def RBFS_helper(prb: Problem, parent_state, explored, h_value):
+        start_time = datetime.now()
+        children = prb.successor(parent_state)
+        children.sort(key=lambda x: x.h_n_1)
+
+        for j in range(len(children)):
+            state = children[j]
+
+            if state.h_n_1 >= h_value:
+                for z in range(j):
+                    st = children[z]
+                    if st.__hash__() in explored:
+                        explored.pop(st.__hash__())
+                return None
+
+            hashed_state = state.__hash__
+            if hashed_state not in explored:
+                if prb.is_goal(state):
+                    return Solution(state, prb, start_time)
+                explored[hashed_state] = state
+
+            s = Search.RBFS_helper(prb, state, explored, min(h_value, state.h_n_1))
+            if type(s) == Solution:
+                return s

@@ -48,12 +48,17 @@ class Pipe:
         return hash_string
 
     def max_sameColor(self):
-        max_same = 0
+        count = 1
+        for i in range(1,len(self.stack)):
+            if self.stack[i] == self.stack[i - 1]:
+                count += 1
+        return count
+
+    def max_same_color_recursiveMode(self, init_pipe):
         count = 0
-        for j in range(1, len(self.stack)):
-            for i in range(2, len(self.stack)):
-                if self.stack[i] == self.stack[i - 1]:
-                    count += 1
-            if count > max_same:
-                max_same = count
-        return max_same
+        for i in range(len(init_pipe.stack)):
+            if self.stack[i] == init_pipe.stack[i]:
+                count += 1
+            else:
+                break
+        return count
