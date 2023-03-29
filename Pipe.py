@@ -47,10 +47,10 @@ class Pipe:
             hash_string += str(i)
         return hash_string
 
-    def max_sameColor(self):
-        count = 1
+    def difColor(self):
+        count = 0
         for i in range(1,len(self.stack)):
-            if self.stack[i] == self.stack[i - 1]:
+            if self.stack[i] != self.stack[i - 1]:
                 count += 1
         return count
 
