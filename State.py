@@ -23,13 +23,10 @@ class State:
 
     @property
     def h_n_1(self):
-        max_same_pipe = 0
-        res = 0
+        count = 0
         for i in self.pipes:
-            if i.max_sameColor() > max_same_pipe:
-                max_same_pipe = i.max_sameColor()
-                res = i.limit - max_same_pipe
-        return res
+            count += i.difColor()
+        return count
 
     @property
     def f_n(self):
