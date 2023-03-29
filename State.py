@@ -33,7 +33,7 @@ class State:
         return self.g_n + self.h_n_1
 
     # @property
-    # def recursive_h(self):
+    # def reverse_h(self):
     #     count = 0
     #     for i, init_pipe in zip(self.pipes, global_init_status.pipes):
     #         count += i.max_same_color_recursiveMode(init_pipe)

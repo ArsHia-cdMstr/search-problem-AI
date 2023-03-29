@@ -169,7 +169,7 @@ class Search:
         for j in range(len(children)):
             state = children[j]
 
-            if state.h_n_1 >= h_value:
+            if state.h_n_1 > h_value:
                 for z in range(j):
                     st = children[z]
                     if st.__hash__() in explored:
@@ -182,6 +182,6 @@ class Search:
                     return Solution(state, prb, start_time)
                 explored[hashed_state] = state
 
-            s = Search.RBFS_helper(prb, state, explored, min(h_value, state.h_n_1))
+            s = Search.RBFS_helper(prb, state, explored, state.h_n_1)
             if type(s) == Solution:
                 return s
