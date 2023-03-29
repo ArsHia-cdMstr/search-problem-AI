@@ -23,10 +23,25 @@ class State:
 
     @property
     def h_n_1(self):
-        count = 0
-        for i in self.pipes:
-            count += i.difColor()
-        return count
+        total_happiness = 0
+
+        for pipe in self.pipes:
+            pipe_happiness = 0
+            value = 1
+
+            if len(pipe.stack) > 0: #if pipe is empty skip this part
+
+                pipe_init_color = pipe.stack[0]  # the first ball of each pipe
+
+                for ball in pipe.stack:
+                    if ball == pipe_init_color:
+                        pipe_happiness += value
+                        value += 0.1
+                    else:
+                        break
+            total_happiness += pipe_happiness + (pipe.limit - len(pipe.stack))
+
+        return -total_happiness
 
     @property
     def f_n(self):
