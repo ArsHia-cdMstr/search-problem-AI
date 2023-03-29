@@ -158,10 +158,10 @@ class Search:
         state = prb.initState
         explored[state.__hash__()] = state
 
-        return Search.RBFS_helper(prb, state, explored, state.h_n_1)
+        return Search.__RBFS_recursive(prb, state, explored, state.h_n_1)
 
     @staticmethod
-    def RBFS_helper(prb: Problem, parent_state, explored, h_value):
+    def __RBFS_recursive(prb: Problem, parent_state, explored, h_value):
         start_time = datetime.now()
         children = prb.successor(parent_state)
         children.sort(key=lambda x: x.h_n_1)
@@ -182,6 +182,6 @@ class Search:
                     return Solution(state, prb, start_time)
                 explored[hashed_state] = state
 
-            s = Search.RBFS_helper(prb, state, explored, state.h_n_1)
+            s = Search.__RBFS_recursive(prb, state, explored, state.h_n_1)
             if type(s) == Solution:
                 return s
