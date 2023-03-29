@@ -119,7 +119,7 @@ class Search:
         priority_queue.append(state)
         while len(priority_queue) > 0:
             priority_queue.sort(key=lambda x: x.f_n, reverse=True)
-            state = priority_queue.pop(0)
+            state = priority_queue.pop()
             hashed_state = state.__hash__()
             if hashed_state not in explored:
                 explored[hashed_state] = state
