@@ -210,3 +210,38 @@ class Search:
                     if c.__hash__() not in explored:
                         priority_queue.append(c)
         return None
+
+    @staticmethod
+    def BDS(prb:Problem, goal_state) -> Solution:
+
+        start_time = datetime.now()
+
+        i_explored = {}
+        g_explored = {}
+
+        i_stack = []
+        g_stack = []
+
+        I_state = prb.initState
+        i_stack.append(I_state)
+
+        G_state = goal_state
+        g_stack.append(G_state)
+
+        while True:
+            fring_list_i2g = Search.__init_to_goal(prb, I_state)
+            fring_list_g2i = Search.__goal_to_init(prb, G_state)
+            for i in fring_list_i2g:
+                for j in fring_list_g2i:
+                    if fring_list_i2g[i] == fring_list_i2g[j]:
+                        return True
+
+    @staticmethod
+    def __init_to_goal(prb: Problem, parent_state):
+        children = prb.successor(parent_state)
+        return children
+
+    @staticmethod
+    def __goal_to_init(prb: Problem, child_status):
+        parents = prb.successor(child_status)
+        return parents
