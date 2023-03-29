@@ -38,7 +38,7 @@ class Problem:
                     # self.get_cost_from_change_ucs(state, i, j), (i, j), state.depth+1)
                     s = State(
                             copy.deepcopy(state.pipes), state, 
-                            self.get_cost_from_change_heuristic(state),
+                            self.get_cost_from_change(state, i),
                             (i, j), state.depth+1)
                     s.change_between_two_pipe(i, j)
                     child.append(s)
