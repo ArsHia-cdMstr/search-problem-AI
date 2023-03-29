@@ -4,7 +4,7 @@ from State import State
 from Search import Search
 
 if __name__ == '__main__':
-    test_path = 'tests/test1.txt'
+    test_path = 'tests/test4.txt'
     # test_path = 'tests/test3.txt'
     
     file = open(test_path, 'r')
@@ -27,6 +27,6 @@ if __name__ == '__main__':
     #     a = a.split(',')
     #     p.append(Pipe(a[:-1], int(a[-1])))
 
-    s = Search.heuristic_A_star(Problem(State(p, None, 0, (0, 0), 0)))
+    s = Search.IDA_star(Problem(State(p, None, 0, (0, 0), 0)))
     s.print_path()
     # s.execute_gui()

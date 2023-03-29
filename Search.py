@@ -140,8 +140,7 @@ class Search:
         priority_queue.append(state)
         while len(priority_queue) > 0:
             priority_queue.sort(key=lambda x: x.f_n, reverse=True)
-            state = priority_queue.pop(0)
-            cuttoff = state.f_n
+            state = priority_queue.pop()
             hashed_state = state.__hash__()
             explored[hashed_state] = state
             neighbors = prb.successor(state)
@@ -185,3 +184,29 @@ class Search:
             s = Search.__RBFS_recursive(prb, state, explored, state.h_n_1)
             if type(s) == Solution:
                 return s
+
+    @staticmethod
+    def IDA_star(prb:Problem) -> Solution:
+        start_time = datetime.now()
+        priority_queue = []
+        explored = {}
+        state = prb.initState
+        priority_queue.append(state)
+
+        cuttoff = 10000
+        while True:
+            cuttoff *= 2
+            while len(priority_queue) > 0:
+                priority_queue.sort(key=lambda x: x.f_n, reverse=True)
+                state = priority_queue.pop()
+                hashed_state = state.__hash__()
+                explored[hashed_state] = state
+                neighbors = prb.successor(state)
+                for c in neighbors:
+                    if c.f_n > cuttoff:
+                        continue
+                    if prb.is_goal(c):
+                        return Solution(c, prb, start_time)
+                    if c.__hash__() not in explored:
+                        priority_queue.append(c)
+        return None
