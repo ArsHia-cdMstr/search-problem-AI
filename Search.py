@@ -2,6 +2,8 @@ from Solution import Solution
 from Problem import Problem
 from datetime import datetime
 
+import math
+
 
 class Search:
     def __init__(self) -> None:
@@ -132,22 +134,27 @@ class Search:
         return None
 
     @staticmethod
-    def heuristic_iterative_A_star(prb: Problem) -> Solution:
+    def ida_star(prb: Problem) -> Solution:
         start_time = datetime.now()
-        priority_queue = []
-        explored = {}
-        state = prb.initState
-        priority_queue.append(state)
-        while len(priority_queue) > 0:
-            priority_queue.sort(key=lambda x: x.f_n, reverse=True)
-            state = priority_queue.pop(0)
-            cuttoff = state.f_n
-            hashed_state = state.__hash__()
-            explored[hashed_state] = state
-            neighbors = prb.successor(state)
-            for c in neighbors:
-                if prb.is_goal(c):
-                    return Solution(c, prb, start_time)
-                if c.__hash__() not in explored:
-                    priority_queue.append(c)
+        next_limit = prb.initState.f_n
+        while next_limit != math.inf:
+            limit = next_limit
+            next_limit = math.inf
+            queue = []
+            explored = {}
+            state = prb.initState
+            queue.append(state)
+            while len(queue) > 0:
+                state = queue.pop()
+                key = state.__hash__()
+                if key not in explored:
+                    explored[key] = state
+                    if f_n:=state.f_n > limit:
+                        next_limit = min(f_n, next_limit)
+                        continue
+                    neighbors = prb.successor(state)
+                    for c in neighbors:
+                        if prb.is_goal(c):
+                            return Solution(c, prb, start_time)
+                        queue.append(c)
         return None
