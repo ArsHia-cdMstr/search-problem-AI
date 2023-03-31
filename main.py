@@ -1,11 +1,13 @@
+# writers : Arshia Mokhles
+#   Soroush Fathi
 from Pipe import Pipe
 from Problem import Problem
 from State import State
 from Search import Search
 
 if __name__ == '__main__':
-    test_path = 'tests/test1.txt'
-    test_path = 'tests/test2.txt'
+    test_path = 'tests/test4.txt'
+    # test_path = 'tests/test3.txt'
     
     file = open(test_path, 'r')
     p = []
@@ -15,6 +17,6 @@ if __name__ == '__main__':
         a = a.split(',')
         p.append(Pipe(a[:-1], int(a[-1])))
 
-    s = Search.ids(Problem(State(p, None, 0, (0, 0), 0)))
+    s = Search.BDS(Problem(State(p, None, 0, (0, 0), 0)))
     s.print_path()
     # s.execute_gui()
