@@ -186,7 +186,7 @@ class Search:
                 return s
 
     @staticmethod
-    def IDA_star(prb:Problem) -> Solution:
+    def IDA_star(prb: Problem) -> Solution:
         start_time = datetime.now()
         priority_queue = []
         explored = {}
@@ -212,7 +212,7 @@ class Search:
         return None
 
     @staticmethod
-    def BDS(prb:Problem, goal_state) -> Solution:
+    def BDS(prb: Problem) -> Solution:
 
         start_time = datetime.now()
 
@@ -225,23 +225,22 @@ class Search:
         I_state = prb.initState
         i_stack.append(I_state)
 
-        G_state = goal_state
+        G_state = Search.RBFS(prb).state
         g_stack.append(G_state)
 
-        while True:
-            fring_list_i2g = Search.__init_to_goal(prb, I_state)
-            fring_list_g2i = Search.__goal_to_init(prb, G_state)
-            for i in fring_list_i2g:
-                for j in fring_list_g2i:
-                    if fring_list_i2g[i] == fring_list_i2g[j]:
-                        return True
+        while len(i_stack) and len(g_stack):
 
-    @staticmethod
-    def __init_to_goal(prb: Problem, parent_state):
-        children = prb.successor(parent_state)
-        return children
+            fring_list_i2g = prb.successor(i_stack.pop())
+            fring_list_g2i = prb.successor(g_stack.pop())
 
-    @staticmethod
-    def __goal_to_init(prb: Problem, child_status):
-        parents = prb.successor(child_status)
-        return parents
+            for c1 in fring_list_i2g:
+                if c1.__hash__() not in i_explored:
+                    i_explored[c1.__hash__()] = c1
+                    i_stack.append(c1)
+                    for c2 in fring_list_g2i:
+                        if c2.__hash__() not in g_explored:
+                            g_explored[c2.__hash__()] = c2
+                            g_stack.append(c2)
+                            if c1.__hash__() == c2.__hash__():
+                                return Solution(G_state, prb, start_time)
+        print("fail")
